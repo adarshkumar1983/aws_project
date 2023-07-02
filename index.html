@@ -2,12 +2,21 @@
   @Author: Your name
   @Date:   2023-06-15 11:59:58
   @Last Modified by:   Your name
-  @Last Modified time: 2023-06-30 18:30:44
+  @Last Modified time: 2023-07-02 18:05:02
 -->
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-wyNrmcf5ewAJ8uLOqjnqW09i9G6YAS3Gf/bMnAhifXk7OsPbFfegT5Bccvwnhkd0y3lPQYY/Th+L26F6pMOh9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-D2bVyUG5Jt9s1gK5F5SdViwNGC//Jq3xTXJqEqwvz5AWeUjfXeOcKY04xjWJ3efS" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-xyz" crossorigin="anonymous" />
+</head>
 
     <!-- Add Bootstrap CSS for modal styling -->
     <link rel="stylesheet" href="/path/to/bootstrap.min.css" />
@@ -27,7 +36,7 @@
     <style>
         /* Add your custom CSS styles here */
         body {
-            background-color: #000000;
+            background-color: #090909;
         }
         label,
         button {
@@ -37,7 +46,7 @@
             margin-left: 40px;
         }
         input {
-            color: #dfdfdf;
+            color: #d7c4c4;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 30px;
             margin-left: 20px;
@@ -86,9 +95,7 @@
 }
   
 
-.smooth-animation {
-        transition: all 0.3s ease;
-    }
+
 
     /* Define the animation for the element */
     .smooth-animation:hover {
@@ -116,122 +123,260 @@
         opacity: 1;
     }
 
-    .edit-btn {
-  background-color: red;
-  color: whitesmoke;
+
+
+
+    .table-margin {
+    margin-left: 20px;
+    margin-right: 20px;
 }
-.navbar {
-      width: 100%; 
-      height: 115px;/* Set the desired width for the navbar */
+.row{
+    margin-left: 10px;
+    margin-right: 20px;
+}
+.table-margin-top {
+        margin-top: 20px;    
     }
+
+
+
+
+.search-button-container
+{
+  margin-left: 10px;
+  
+}
+
+
+
+/* .add-button {
+    margin-top: 0px; 
+    margin-left: 100px;
+    margin-bottom: 10px;
+  } */
+
+
+.search-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 20px; 
+}
+
+.search-box {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  flex: 1;
+  margin-left: 20px;
+  margin-right: 45px;
+}
+
+.search-box.active {
+  max-height: 200px;
+}
+@media (max-width: 767px) {
+  .search-button-container {
+    margin-right: 10px;
+  }
+}
+
+
+
+
+
+
+.logo {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
+
+
+
+
+
+.navbar-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.search-button-container {
+  margin-right: 10px;
+}
+
+.add-item-button-container {
+  position: relative;
+}
+
+@media (max-width: 991px) {
+  .navbar-buttons {
+    justify-content: flex-end;
+  }
+
+  .search-button-container {
+    order: 2;
+  }
+
+  .add-item-button-container {
+    order: 1;
+  }
+}
+
+
+
+
+
+.send-button {
+
+  margin-left: 0px;
+  margin-right: 15px;
+}
+.small-button-wrapper {
+  padding: 4px 8px; 
+  font-size: 12px;
+}
+select#iName {
+    margin-bottom: 10px;
+  }
+
+
+  #addItemButton {
+  transition: opacity 0.3s ease;
+}
+
+.fixed-button {
+  position: fixed;
+  bottom: 20px; /* Adjust this value to set the desired distance from the bottom */
+  right: 20px; /* Adjust this value to set the desired distance from the right */
+  z-index: 9999; /* Adjust this value if necessary */
+}
+
+.hide-button {
+  opacity: 0;
+  pointer-events: none;
+}
+.table-row .bi-box {
+  color: rgb(35, 0, 230);
+}
+
+.table-row .bi-basket-fill {
+  color: rgb(217, 130, 0);
+}
+
+
     </style>
 </head>
 
 <body> 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <a class="navbar-brand" href="#">
         <img src="logi.jpg" class="rounded-circle" alt="Logo" width="54" height="56">
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="index_D.html">create relation</a>
-          </li>
-        </ul>
+      <div class="navbar-buttons ml-auto">
+        <div class="search-button-container">
+          <button class="btn btn-primary search-button smooth-animation" id="toggleSearchButton">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="add-item-button-container">
+          <button id="addItemButton" type="button" class="btn btn-primary smooth-animation" onclick="toggleFormVisibility()" style="position: relative;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </nav>
   
-
-
-
-
-
+  
 
   
-    <div style="display: flex; justify-content: center;"></div>
-    <form id="addItemForm" class="needs-validation" style="display: none;" novalidate>
-        <div class="row">
-          <div class="mb-3">
-            <label for="fName" class="form-label">Item Name:</label>
-            <input type="text" class="form-control" id="fName" maxlength="20" required>
-            <div class="invalid-feedback">Please enter an item name (up to 20 characters).</div>
-          </div>
-          <div class=" mb-3">
-            <label for="nName" class="form-label">Description:</label>
-            <input type="text" class="form-control" id="nName" maxlength="20" required>
-            <div class="invalid-feedback">Please enter a description (up to 20 characters).</div>
-          </div>
-          <div class=" mb-3">
-            <label for="iName" class="form-label">Item Type:</label>
-            <select class="form-control" id="iName" required>
-              <option value="" selected disabled>Select an item type</option>
-              <option value="object">Object</option>
-              <option value="container">Container</option>
-            </select>
-            <div class="invalid-feedback">Please select an item type.</div>
-          </div>
-          <div class="col-12">
-            <button type="button" class="btn btn-primary" onclick="callAPI(document.getElementById('fName').value, document.getElementById('nName').value, document.getElementById('iName').value)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
-                <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
-              </svg>
-            </button>
-          </div>
+  
+  
+  
+
+
+
+
+  <style>
+    .select-margin-left select {
+      margin-left: 20px;
+    }
+  </style>
+  
+  <form id="addItemForm" class="needs-validation" style="display: none;" novalidate>
+    <div class="mb-3 select-margin-left">
+      <label for="fName" class="form-label">Item Name:</label>
+      <input type="text" class="form-control" id="fName" maxlength="20" required>
+      <div class="invalid-feedback">Please enter an item name (up to 20 characters).</div>
+    </div>
+    <div class="mb-3 select-margin-left">
+      <label for="nName" class="form-label">Description:</label>
+      <input type="text" class="form-control" id="nName" maxlength="20" required>
+      <div class="invalid-feedback">Please enter a description (up to 20 characters).</div>
+    </div>
+    <div class="mb-3 select-margin-left">
+      <label for="iName" class="form-label">Item Type:</label>
+      <select class="form-control" id="iName" required>
+        <option value="" selected disabled>Select an item type</option>
+        <option value="object">Object</option>
+        <option value="container">Container</option>
+      </select>
+      <div class="invalid-feedback">Please select an item type.</div>
+    </div>
+    <div class="col-12">
+      <div class="row table-margin-top">
+        <div class="small-button-wrapper">
+          <button type="button" class="btn btn-primary send-button" onclick="callAPI(document.getElementById('fName').value, document.getElementById('nName').value, document.getElementById('iName').value)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
+              <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+            </svg>
+          </button>
         </div>
-      </form>
+      </div>
+    </div>
+  </form>
+  
+  
+  
+  
+  
       
- </div>
 
-    <div class="container text-center">
-        <button id="addItemButton" type="button" class="btn btn-primary smooth-animation" onclick="toggleFormVisibility()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="36" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
-            </svg> ADD ITEM
-        </button>
-    </div>
 
-    <div class="table-responsive my-4">
-        <div class="input-group mb-2">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search for item...">
-            <button class="btn btn-primary" id="searchButton">Search</button>
+     <!-- Add your table header here -->
+     <div class="table-responsive my-4">
+      <div class="search-wrapper">
+        <div class="input-group search-box" id="searchBox">
+          <input type="text" id="searchInput" class="form-control" placeholder="Search for item...">
+          <!-- You can add a submit button here if needed -->
         </div>
-        <table id="item-table" class="table table-hover table-bordered">
-            <thead class="thead-dark">
+      </div>
+      <div class="row table-margin-top">
+        <div class="col-md-12">
+          <div class="table-margin">
+            <table id="item-table" class="table table-hover table-bordered">
+              <thead class="thead-dark">
                 <tr>
-                    <!-- Add your table header here -->
+                  <!-- Add your table header here -->
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
                 <!-- Items will be dynamically added here -->
-            </tbody>
-        </table>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    
-    
-    
-<!--    
-    <div class="table-responsive my-4">
-        <table id="item-table" class="table table-hover table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                  
-                    
-                </tr>
-            </thead>
-            <tbody>
-             
-          
-            </tbody>
-        </table>
-    </div> -->
 
     <!-- Edit modal -->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">

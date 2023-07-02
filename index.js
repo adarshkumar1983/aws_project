@@ -2,7 +2,7 @@
  * @Author: Your name
  * @Date:   2023-06-22 20:08:36
  * @Last Modified by:   Your name
- * @Last Modified time: 2023-06-30 17:54:46
+ * @Last Modified time: 2023-07-02 18:03:36
  */
  // Function to handle item update
 
@@ -62,65 +62,94 @@ function updateItem(event) {
  */
 // define the callAPI function that takes an item name, description, and item type as parameters
 var callAPI = (itemName, description, itemType) => {
+  
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({ "item_name": itemName, "description": description, "item_type": itemType });
     var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
     };
-
+  
     fetch("https://k2zguvcin7.execute-api.ap-south-1.amazonaws.com/dev/user", requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            // Check if the response has statusCode 200
-            if (result.statusCode === 200) {
-                // Parse the body as JSON and display the items
-                var items = JSON.parse(result.body);
-                // alert("Items in DynamoDB: " + JSON.stringify(items));
-                // showAll(items);
-                loadItems();
-            } else {
-                alert("Error: " + result.body);
-            }
-        })
-         .catch(error => console.log('error', error));
-}
+      .then(response => response.json())
+      .then(result => {
+        // Check if the response has statusCode 200
+        if (result.statusCode === 200) {
+          // Parse the body as JSON and display the items
+          var items = JSON.parse(result.body);
+          // alert("Items in DynamoDB: " + JSON.stringify(items));
+          // showAll(items);
+          loadItems();
+  
+          // Clear the input fields
+          document.getElementById('fName').value = '';
+          document.getElementById('nName').value = '';
+          document.getElementById('iName').value = '';
+  
+          // Hide the form
+          var form = document.getElementById('addItemForm');
+          form.style.display = 'none';
+        } else {
+          alert("Error: " + result.body);
+        }
+      })
+      .catch(error => console.log('error', error));
+  };
+  
 // disply item
 function displayItems(items) {
     var itemTable = $('#item-table');
     itemTable.empty();
-    
-    for (var i = 0; i < items.length; i++) {
-        var item = items[i];
-        var row = $('<tr>').addClass('table-row');
-        row.append($('<td>').text(item.item_name));
-        row.append($('<td>').text(item.description));
-        row.append($('<td>').text(item.item_type));
-        row.append($('<td>').html('<button class="delete-btn" data-item-name="' + item.item_name + '"><i class="fa fa-trash"></i></button>'));
-        row.append($('<td>').html('<button class="edit-btn" data-toggle="modal" data-target="#editModal" data-item-name="' + item.item_name + '" data-item-description="' + item.description + '" data-item-type="' + item.item_type + '"><i class="fa fa-edit"></i></button>'));
-        itemTable.append(row);
-    }
-    
+  
+      // Sort the items based on add time
+  items.sort(function(a, b) {
+    return new Date(a.add_time) - new Date(b.add_time);
+  });
+
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    var row = $('<tr>').addClass('table-row');
+    row.append($('<td>').text(item.item_name));
+    row.append($('<td>').text(item.description));
+    row.append($('<td>').html(getItemIcon(item.item_type)));
+    row.append($('<td>').html('<button class="delete-btn" data-item-name="' + item.item_name + '"><i class="fa fa-trash"></i></button>'));
+    row.append($('<td>').html('<button class="edit-btn" data-toggle="modal" data-target="#editModal" data-item-name="' + item.item_name + '" data-item-description="' + item.description + '" data-item-type="' + item.item_type + '"><i class="fa fa-edit"></i></button>'));
+    itemTable.append(row);
+  }
+  
     // Add click event listener for delete buttons
     $('.delete-btn').click(function() {
-        var itemName = $(this).data('item-name');
-        console.log('Deleting item with itemName:', itemName);
-        deleteItem(itemName);
+      var itemName = $(this).data('item-name');
+      console.log('Deleting item with itemName:', itemName);
+      deleteItem(itemName);
     });
-    
+  
     // Add click event listener for edit buttons
     $('.edit-btn').click(function() {
-        var itemName = $(this).data('item-name');
-        var description = $(this).data('item-description');
-        var itemType = $(this).data('item-type');
-        console.log('Editing item with itemName:', itemName);
-        // Call the setEditModal function passing the item details as parameters
-        setEditModal(itemName, description, itemType);
+      var itemName = $(this).data('item-name');
+      var description = $(this).data('item-description');
+      var itemType = $(this).data('item-type');
+      console.log('Editing item with itemName:', itemName);
+      // Call the setEditModal function passing the item details as parameters
+      setEditModal(itemName, description, itemType);
     });
-}
+//    Function to get the item icon based on the item type
+    function getItemIcon(itemType) {
+      if (itemType === 'object') {
+        return '<i class="bi bi-box"></i>';
+      } else if (itemType === 'container') {
+        return '<i class="bi bi-basket-fill"></i>';
+      }
+      return '';
+    }
+   
+  }
+  
+  
     // Add click event listener for edit buttons
 
   
@@ -218,56 +247,86 @@ function setEditModal(itemName, description, itemType) {
         
     }
     
+ 
+      
+      
+    // function toggleFormVisibility() {
+    //     var addItemForm = document.getElementById('addItemForm');
+    //     var addItemButton = document.getElementById('addItemButton');
+    //     var textField = document.querySelector('.text-field');
+              
+    //     var lastScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+              
+    //     if (addItemForm.style.display === 'none') {
+    //       // Smoothly open the form
+    //       addItemForm.style.transition = 'height 0.3s ease, opacity 0.3s ease';
+    //       addItemForm.style.height = 'auto';
+    //       addItemForm.style.opacity = '1';
+    //       addItemButton.style.opacity = '0';
+              
+    //       setTimeout(function() {
+    //         addItemForm.style.display = 'block';
+    //         addItemButton.style.visibility = 'hidden';
+    //       }, 300);
+    //     } else {
+    //       // Smoothly close the form
+    //       addItemForm.style.transition = 'height 0.3s ease, opacity 0.3s ease';
+    //       addItemForm.style.height = '0';
+    //       addItemForm.style.opacity = '0';
+              
+    //       setTimeout(function() {
+    //         addItemForm.style.display = 'none';
+    //         addItemButton.style.visibility = 'visible';
+    //         addItemButton.style.opacity = '1';
+    //       }, 300);
+    //     }
+              
+    //     function hideForm() {
+    //       addItemForm.style.transition = 'height 0.3s ease, opacity 0.3s ease';
+    //       addItemForm.style.height = '0';
+    //       addItemForm.style.opacity = '0';
+              
+    //       setTimeout(function() {
+    //         addItemForm.style.display = 'none';
+    //         addItemButton.style.visibility = 'visible';
+    //         addItemButton.style.opacity = '1';
+    //       }, 300);
+    //     }
+              
+    //     window.addEventListener('scroll', function() {
+    //       var currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+              
+    //       if (currentScrollPosition < lastScrollPosition) {
+    //         // Scrolling up, hide the form
+    //         hideForm();
+    //       }
+              
+    //       lastScrollPosition = currentScrollPosition;
+    //     });
+    //   }
+      
+//     var toggleFormVisibility = () => {
+//     var form = document.getElementById('addItemForm');
+//     // Update the form visibility status variable
+//     isFormVisible = !isFormVisible;
+//     form.style.display = isFormVisible ? 'block' : 'none';
+//   };
 
-    function toggleFormVisibility() {
-        var addItemForm = document.getElementById('addItemForm');
-        var addItemButton = document.getElementById('addItemButton');
-        const textField = document.querySelector('.text-field');
+//   window.addEventListener('scroll', () => {
+//     var scrollPosition = window.scrollY;
+//     if (scrollPosition === 0 && !isFormVisible) {
+//       toggleFormVisibility();
+//     }
+//   });
+var toggleFormVisibility = () => {
+    var form = document.getElementById('addItemForm');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  };
       
-        var lastScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
       
-        if (addItemForm.style.display === 'none') {
-          // Smoothly open the form
-          addItemForm.style.transition = 'height 0.3s ease, opacity 0.3s ease';
-          addItemForm.style.height = 'auto';
-          addItemForm.style.opacity = '1';
-          addItemButton.style.opacity = '0';
       
-          setTimeout(function() {
-            addItemForm.style.display = 'block';
-            addItemButton.style.display = 'none';
-          }, 300);
-        } else {
-          // Smoothly close the form
-          addItemForm.style.transition = 'height 0.3s ease, opacity 0.3s ease';
-          addItemForm.style.height = '0';
-          addItemForm.style.opacity = '0';
       
-          setTimeout(function() {
-            addItemForm.style.display = 'none';
-            addItemButton.style.display = 'block';
-          }, 300);
-        }
-      
-        window.addEventListener('scroll', function() {
-          var currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-      
-          if (currentScrollPosition < lastScrollPosition) {
-            // Scrolling up, hide the form
-            addItemForm.style.transition = 'height 0.3s ease, opacity 0.3s ease';
-            addItemForm.style.height = '0';
-            addItemForm.style.opacity = '0';
-      
-            setTimeout(function() {
-              addItemForm.style.display = 'none';
-              addItemButton.style.display = 'block';
-              addItemButton.style.opacity = '1';
-            }, 300);
-          }
-      
-          lastScrollPosition = currentScrollPosition;
-        });
-      }
       
 
 
@@ -297,8 +356,29 @@ function filterTable() {
 // Add event listener to the search input
 document.getElementById("searchInput").addEventListener("keyup", filterTable);
 
-// Add event listener to the search button
-document.getElementById("searchButton").addEventListener("click", filterTable);
+// // Add event listener to the search button
+// // document.getElementById("searchButton").addEventListener("click", filterTable);
+function toggleSearchBox() {
+    var searchBox = document.getElementById("searchBox");
+    searchBox.classList.toggle("active");
+}
+
+// Click event listener for the search button
+document.getElementById("toggleSearchButton").addEventListener("click", toggleSearchBox);
+
+// Click event listener for clicking outside the search box to hide it
+window.addEventListener("click", function(event) {
+    var searchBox = document.getElementById("searchBox");
+    var searchButton = document.getElementById("toggleSearchButton");
+    if (!searchBox.contains(event.target) && !searchButton.contains(event.target)) {
+        searchBox.classList.remove("active");
+    }
+});
+
+// Add event listener to the search input for filtering the table (same as previous code)
+document.getElementById("searchInput").addEventListener("input", filterTable);
+
+// Function to filter the table (same as previous code)
 
 
     

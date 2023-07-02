@@ -2,7 +2,7 @@
   @Author: Your name
   @Date:   2023-06-23 21:13:03
   @Last Modified by:   Your name
-  @Last Modified time: 2023-06-30 15:18:44
+  @Last Modified time: 2023-07-01 13:59:25
 -->
 <!DOCTYPE html>
 <html>
@@ -118,9 +118,7 @@
         <!-- Items will be dynamically added here -->
         <tr>
           <td>ItemName</td>
-          <td>container</td>
-         
-          
+          <td>container</td>  
         </tr>
       </tbody>
     </table>
@@ -351,11 +349,12 @@ submitButton.addEventListener("click", function () {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(data)
-  })
+  }) 
     .then(response => response.json())
     .then(result => {
       // Handle the response from the API if needed
       console.log(result);
+      loadItems();
       // Update the selected values in the info divs
       objectInfo.textContent = "Selected Object: " + result.item_name;
       containerInfo.textContent = "Selected Container: " + result.container_name;
@@ -376,8 +375,8 @@ submitButton.addEventListener("click", function () {
 
     // for container show in a dropdownbox
      function loadContainerItemsInSelectBox() {
-      const containerSelector = $('#object_selector');
-      const containerInfo = $('#object_info');
+      const containerSelector = $('#container_selector');
+      const containerInfo = $('#container_info');
 
       $.ajax({
         url: 'https://k2zguvcin7.execute-api.ap-south-1.amazonaws.com/dev/user?item_type=container',
@@ -417,8 +416,9 @@ submitButton.addEventListener("click", function () {
 
     // for object show in dropdown box 
     function loadObjectItemsInSelectBox() {
-      const containerSelector = $('#container_selector');
-      const containerInfo = $('#container_info');
+     
+      const containerSelector = $('#object_selector');
+      const containerInfo = $('#object_info');
 
       $.ajax({
         url: 'https://k2zguvcin7.execute-api.ap-south-1.amazonaws.com/dev/user?item_type=object',
