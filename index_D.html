@@ -2,7 +2,7 @@
   @Author: Your name
   @Date:   2023-06-23 21:13:03
   @Last Modified by:   Your name
-  @Last Modified time: 2023-07-01 13:59:25
+  @Last Modified time: 2023-07-04 16:20:51
 -->
 <!DOCTYPE html>
 <html>
@@ -88,7 +88,7 @@
   </nav>
   
   
- 
+
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 </head>
@@ -104,7 +104,6 @@
   </table> -->
   <!-- <table id="item_table">
     <tbody>
-     
     </tbody>
   </table> -->
   <h1>Item List</h1>
@@ -157,7 +156,6 @@
         var row = $('<tr>');
         row.append($('<td>').text(item.item_name));
         row.append($('<td>').text(item.container_name));
-       
              // Create delete button with updated logo
       
         itemTable.append(row);
@@ -187,7 +185,7 @@ function loadItems() {
         url: 'https://k2zguvcin7.execute-api.ap-south-1.amazonaws.com/dev/relationitems',
         type: 'GET',
         success: function(response) {
-           
+
             displayItems(JSON.parse(response.body));
         },
         error: function() {
@@ -374,7 +372,7 @@ submitButton.addEventListener("click", function () {
 
 
     // for container show in a dropdownbox
-     function loadContainerItemsInSelectBox() {
+function loadContainerItemsInSelectBox() {
       const containerSelector = $('#container_selector');
       const containerInfo = $('#container_info');
 
@@ -416,7 +414,6 @@ submitButton.addEventListener("click", function () {
 
     // for object show in dropdown box 
     function loadObjectItemsInSelectBox() {
-     
       const containerSelector = $('#object_selector');
       const containerInfo = $('#object_info');
 

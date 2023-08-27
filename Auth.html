@@ -1,0 +1,51 @@
+<!-- 
+  @Author: Your name
+  @Date:   2023-07-20 16:39:30
+  @Last Modified by:   Your name
+  @Last Modified time: 2023-08-27 17:14:22
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login and Signup</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>Login or Sign Up</h2>
+    <form id="auth-form">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="message"></div>
+    <script>
+        $(document).ready(function() {
+            $("#auth-form").submit(function(e) {
+                e.preventDefault();
+
+                const username = $("#username").val();
+                const password = $("#password").val();
+
+                const data = {
+                    username: username,
+                    password: password
+                };
+                
+                
+                $.ajax({
+                    type: "POST",
+                    url: "https://k2zguvcin7.execute-api.ap-south-1.amazonaws.com/dev/auth", // Replace with your API Gateway endpoint
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    success: function(response) {
+                        $("#message").text(response);
+                    },
+                    error: function(error) {
+                        $("#message").text("Error: " + JSON.parse(error.responseText).body);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

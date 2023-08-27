@@ -2,132 +2,139 @@
  * @Author: Your name
  * @Date:   2023-06-22 20:08:36
  * @Last Modified by:   Your name
- * @Last Modified time: 2023-07-02 18:03:36
+ * @Last Modified time: 2023-07-20 17:14:53
  */
- // Function to handle item update
-
-
- 
 // Function to handle item update
-
+// Function to handle item update
 function updateItem(event) {
-    
+  var userSub = getCognitoUserSub(); // Get the user ID (subject claim) from the Cognito access token
   var updatedItemName = document.getElementById('item_name').value;
   var updatedDescription = document.getElementById('description').value;
   var updatedItemType = document.getElementById('item_type').value;
 
   // Prepare the request body
-  var requestBody = 
-    {
-      item_name: updatedItemName,
-      description: updatedDescription,
-      item_type: updatedItemType
-    };
+  var requestBody = {
+    user_id: userSub,
+    item_name: updatedItemName,
+    description: updatedDescription,
+    item_type: updatedItemType
+  };
 
   // Send the PUT request to update the item
   fetch('https://k2zguvcin7.execute-api.ap-south-1.amazonaws.com/dev/user', {
-      method: 'PUT',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      
-      body: JSON.stringify(requestBody)
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestBody)
   })
-      .then(response => {
-          if (response.ok) {
-              alert('Item updated successfully');
-              // Perform any additional actions after successful update
-              // Close the modal or update the UI as needed
-              $('#editModal').modal('hide');
-              // Reload the items
-              loadItems();
-          } else {
-              throw new Error('Error updating item');
-          }
-      })
-      .catch(error => {
-          alert('Error updating item: ' + error.message);
-      });
+  .then(response => {
+    if (response.ok) {
+      alert('Item updated successfully');
+      // Perform any additional actions after successful update
+      // Close the modal or update the UI as needed
+      $('#editModal').modal('hide');
+      // Reload the items
+      loadItems();
+    } else {
+      throw new Error('Error updating item');
+    }
+  })
+  .catch(error => {
+    alert('Error updating item: ' + error.message);
+  });
 }
 
 
+function getCognitoUserSub() {
+  // Assuming you have access to the Cognito access token after user authentication
+  // You can extract the user ID (subject claim) from the access token
+  // For example, if you are using AWS Amplify for authentication:
+  // const user = await Auth.currentAuthenticatedUser();
+  // const userSub = user.attributes.sub;
+
+  // For testing purposes, return a hardcoded user ID
+  return 'user123';
+}
 
 
-
-/**
- * @Author: Your name
- * @Date:   2023-06-22 20:08:36
- * @Last Modified by:   Your name
- * @Last Modified time: 2023-06-22 20:39:32
- */
 // define the callAPI function that takes an item name, description, and item type as parameters
 var callAPI = (itemName, description, itemType) => {
-  
+  var userSub = getCognitoUserSub(); // Get the user ID (subject claim) from the Cognito access token
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    var raw = JSON.stringify({ "item_name": itemName, "description": description, "item_type": itemType });
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-  
-    fetch("https://k2zguvcin7.execute-api.ap-south-1.amazonaws.com/dev/user", requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        // Check if the response has statusCode 200
-        if (result.statusCode === 200) {
-          // Parse the body as JSON and display the items
-          var items = JSON.parse(result.body);
-          // alert("Items in DynamoDB: " + JSON.stringify(items));
-          // showAll(items);
-          loadItems();
-  
-          // Clear the input fields
-          document.getElementById('fName').value = '';
-          document.getElementById('nName').value = '';
-          document.getElementById('iName').value = '';
-  
-          // Hide the form
-          var form = document.getElementById('addItemForm');
-          form.style.display = 'none';
-        } else {
-          alert("Error: " + result.body);
-        }
-      })
-      .catch(error => console.log('error', error));
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  // Prepare the request body with the user ID
+  var requestBody = JSON.stringify({
+    user_id: userSub,
+    item_name: itemName,
+    description: description,
+    item_type: itemType
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: requestBody,
+    redirect: 'follow'
   };
-  
+
+  fetch("https://k2zguvcin7.execute-api.ap-south-1.amazonaws.com/dev/user", requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      // Check if the response has statusCode 200
+      if (result.statusCode === 200) {
+        // Parse the body as JSON and display the items
+        var items = JSON.parse(result.body);
+        // showAll(items);
+        loadItems();
+        // Clear the input fields
+        document.getElementById('fName').value = '';
+        document.getElementById('nName').value = '';
+        document.getElementById('iName').value = '';
+        // Hide the form
+        var form = document.getElementById('addItemForm');
+        form.style.display = 'none';
+      } else {
+        alert("Error: " + result.body);
+      }
+    })
+    .catch(error => console.log('error', error));
+};
+
 // disply item
 function displayItems(items) {
     var itemTable = $('#item-table');
     itemTable.empty();
-  
-      // Sort the items based on add time
-  items.sort(function(a, b) {
-    return new Date(a.add_time) - new Date(b.add_time);
+   // Sort the items based on add time
+    items.sort(function(a, b) {
+    var dateA = Date.parse(a.add_time);
+    var dateB = Date.parse(b.add_time);
+    return dateA - dateB;
   });
-
   for (var i = 0; i < items.length; i++) {
     var item = items[i];
     var row = $('<tr>').addClass('table-row');
-    row.append($('<td>').text(item.item_name));
-    row.append($('<td>').text(item.description));
-    row.append($('<td>').html(getItemIcon(item.item_type)));
-    row.append($('<td>').html('<button class="delete-btn" data-item-name="' + item.item_name + '"><i class="fa fa-trash"></i></button>'));
-    row.append($('<td>').html('<button class="edit-btn" data-toggle="modal" data-target="#editModal" data-item-name="' + item.item_name + '" data-item-description="' + item.description + '" data-item-type="' + item.item_type + '"><i class="fa fa-edit"></i></button>'));
+    var itemNameCell = $('<td>').text(item.item_name).addClass('item-name');
+    var descriptionCell = $('<td>').text(item.description);
+    // var itemTypeCell = $('<td>').text(item.item_type);
+    var itemTypeCell = $('<td>').html(getItemIcon(item.item_type));
+    var deleteButton = $('<button>').addClass('delete-btn').attr('data-item-name', item.item_name).html('<i class="fa fa-trash"></i>');
+    var editButton = $('<button>').addClass('edit-btn').attr('data-toggle', 'modal').attr('data-target', '#editModal').attr('data-item-name', item.item_name).attr('data-item-description', item.description).attr('data-item-type', item.item_type).html('<i class="fa fa-edit"></i>');
+    row.append(itemNameCell);
+    row.append(descriptionCell);
+    row.append(itemTypeCell);
+    row.append($('<td>').html(deleteButton));
+    row.append($('<td>').html(editButton));
     itemTable.append(row);
   }
-  
     // Add click event listener for delete buttons
     $('.delete-btn').click(function() {
       var itemName = $(this).data('item-name');
       console.log('Deleting item with itemName:', itemName);
       deleteItem(itemName);
     });
-  
     // Add click event listener for edit buttons
     $('.edit-btn').click(function() {
       var itemName = $(this).data('item-name');
@@ -137,7 +144,22 @@ function displayItems(items) {
       // Call the setEditModal function passing the item details as parameters
       setEditModal(itemName, description, itemType);
     });
-//    Function to get the item icon based on the item type
+      // Add click event listener for table rows
+      $('.item-name').click(function() {
+        var itemName = $(this).text();
+        var description = $(this).closest('tr').find('td:nth-child(2)').text();
+        var itemType = $(this).closest('tr').find('td:nth-child(3)').html();
+        navigateToItemDetails(itemName, description, itemType);
+      });
+      // Function to navigate to item details page with item details as URL parameters
+      function navigateToItemDetails(itemName, description, itemType) {
+        var url = 'item-details.html?name=' + encodeURIComponent(itemName) +
+          '&description=' + encodeURIComponent(description) +
+          '&type=' + encodeURIComponent(itemType);
+        window.location.href = url;
+      }
+      
+       //Function to get the item icon based on the item type
     function getItemIcon(itemType) {
       if (itemType === 'object') {
         return '<i class="bi bi-box"></i>';
@@ -146,7 +168,6 @@ function displayItems(items) {
       }
       return '';
     }
-   
   }
   
   
@@ -161,7 +182,6 @@ function loadItems() {
         url: 'https://k2zguvcin7.execute-api.ap-south-1.amazonaws.com/dev/user',
         type: 'GET',
         success: function(response) {
-           
             displayItems(JSON.parse(response.body));
         },
         error: function() {
@@ -169,6 +189,8 @@ function loadItems() {
         }
     });
     }
+
+
 
 // edit funtion
 // function setEditModal(itemName, description, itemType) {
@@ -208,46 +230,41 @@ function setEditModal(itemName, description, itemType) {
       updateItem(event);
     });
   }
-
-
-
-
-    
 // delete item
-    function deleteItem(itemName) {
-        console.log('Received itemName for deletion:', itemName);
-        var apiUrl = 'https://k2zguvcin7.execute-api.ap-south-1.amazonaws.com/dev/deleteitem';
-        
-        var requestBody = {
-            item_name: itemName
-            // Add other attributes if required for your schema
-        };
-        
-        // Send the DELETE request
-        fetch(apiUrl, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('Item deleted successfully');
-                // Perform any additional actions after successful deletion
-                // Reload the items
-                loadItems();
-            } else {
-                throw new Error('Error deleting item');
-            }
-        })
-        .catch(error => {
-            alert('Error deleting item: ' + error.message);
-        });
-        
+function deleteItem(itemName) {
+  var userSub = getCognitoUserSub(); // Get the user ID (subject claim) from the Cognito access token
+  console.log('Received itemName for deletion:', itemName);
+  var apiUrl = 'https://k2zguvcin7.execute-api.ap-south-1.amazonaws.com/dev/deleteitem';
+  
+  var requestBody = {
+    user_id: userSub,
+    item_name: itemName
+    // Add other attributes if required for your schema
+  };
+  
+  // Send the DELETE request
+  fetch(apiUrl, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestBody)
+  })
+  .then(response => {
+    if (response.ok) {
+      alert('Item deleted successfully');
+      // Perform any additional actions after successful deletion
+      // Reload the items
+      loadItems();
+    } else {
+      throw new Error('Error deleting item');
     }
+  })
+  .catch(error => {
+    alert('Error deleting item: ' + error.message);
+  });
+}
     
- 
       
       
     // function toggleFormVisibility() {
@@ -318,6 +335,7 @@ function setEditModal(itemName, description, itemType) {
 //       toggleFormVisibility();
 //     }
 //   });
+
 var toggleFormVisibility = () => {
     var form = document.getElementById('addItemForm');
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
@@ -385,6 +403,7 @@ document.getElementById("searchInput").addEventListener("input", filterTable);
 $(document).ready(function() {
 // Load the items when the page is ready
 loadItems();
+updateItem();
 
 
 

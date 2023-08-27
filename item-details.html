@@ -1,0 +1,279 @@
+<!-- 
+  @Author: Your name
+  @Date:   2023-07-03 18:33:54
+  @Last Modified by:   Your name
+  @Last Modified time: 2023-07-08 20:28:35
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <link href='https://unpkg.com/css.gg@2.0.0/icons/css/home-alt.css' rel='stylesheet'
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-wyNrmcf5ewAJ8uLOqjnqW09i9G6YAS3Gf/bMnAhifXk7OsPbFfegT5Bccvwnhkd0y3lPQYY/Th+L26F6pMOh9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+      /* CSS styles for the item details page */
+      body {
+        background-color: #000000;
+
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: rgb(255, 255, 255); /* Set the color to red (#f00) */
+      }
+      
+      #relation-box {
+        max-width: 800px;
+        margin: 0 auto;
+        padding-top: 20px;
+        padding: 30px;
+        border: 5px solid #00ff5e;
+        border-radius: 40px;
+        background-color: #d1cdcd;
+      }
+      p {
+        margin-bottom: 10px;
+      }
+      .item-type-icon {
+        font-size: 40px;
+        margin-right: 10px;
+      }
+      .item-name {
+        font-weight: bold;
+      }
+      .Description {
+        font-weight: bold;
+      }
+      .Item_Type {
+        font-weight: bold;
+      }
+      .form-label {
+    color: rgb(255, 255, 255) 
+  }
+  .relation-item {
+  font-weight: bold;
+}
+.item-name{
+  color: rgb(255, 255, 255);
+  font-size: 25px;
+ 
+}
+
+.container-name {
+  color: rgb(255, 0, 0);
+  font-weight: bold;
+  padding: 2px;
+  font-size: 25px;
+  
+
+}
+.larger-icon {
+  font-size: 244px; /* Adjust the size as needed */
+}
+
+.navbar-custom {
+  padding-top: 20px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #1c1c1b;
+  
+}
+
+.table {
+    margin: 0 auto;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  /* Change text color */
+  .table thead th,
+  .table tbody td {
+    color: rgb(112, 112, 200);
+  }
+  #relations {
+  text-align: center;
+}
+
+.relation-box {
+  max-width: 800px;
+  margin: auto;
+  border: 2px solid #000000;
+  border-radius: 12px;
+  padding: 20px;
+  width: 80%;
+  margin-left: 100px;
+  background-color: #ffffff;
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+}
+
+.table th {
+  background-color: #f2f2f2;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.big-font {
+    font-size: 20px; /* Adjust the size as per your preference */
+    color: #ba9d9d;
+    padding-left: 30px;
+  
+  }
+  .big-font-inner {
+  max-width: 500px;
+  margin: auto;
+  font-size: 30px; /* Adjust the size as per your preference */
+  color: #000000;
+  border: 2px solid #000000;
+  border-radius: 12px;
+  text-align: center;
+  padding: px; /* Add some padding to make the text look visually pleasing */
+  width: 80%;
+  margin-left: 10px;
+  color: rgb(5, 5, 5);
+  display: inline-block;
+  background-color: #ffffff;
+  height: 50px; /* Set a fixed height */
+  overflow: auto; /* Add overflow property to handle content overflow */
+}
+
+
+    </style>
+    <title>ITEM DETAILS</title>
+</head>
+<body>
+  <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+  <nav class="navbar navbar-inverse navbar-custom">
+    <div class="container-fluid">
+      <!-- <div class="navbar-header">
+        <!-- <a class="navbar-brand" href="#">WebSiteName</a> -->
+      </div> -->
+      <ul class="nav navbar-nav navbar-left">
+        <li>
+          <a href="index.html">
+            <i class="gg-home-alt larger-icon">
+
+            </i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  
+
+
+<div id="item-details">
+  <div class="item-box">
+    <strong class="big-font">Item Name:</strong>
+    <br>
+    <span id="item-name" class="big-font-inner" ></span>
+  </div>
+  <div class="item-box">
+    <strong class="big-font">Description:</strong>
+    <br>
+    <span id="description" class="big-font-inner" ></span>
+  </div>
+  <div class="item-box">
+    <strong class="big-font">Item Type:</strong>
+    <br>
+    <span id="item-type" class="big-font-inner" ></span>
+  </div>
+</div>
+
+
+
+
+<div id="relations" class="text-center">
+  <div class="relation-box">
+    <table class="table">
+      <thead>
+        <!-- <tr>
+          <th>Item Name</th>
+          <th>Container Name</th>
+          <th>Relation</th>
+        </tr> -->
+      </thead>
+      <tbody>
+        
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  
+  
+  <div class="container mt-5">
+    <div class="row">
+      <!-- <div class="col-lg-6 mb-3">
+        <label for="object_selector" class="form-label">Select Object:</label>
+        <select id="object_selector" name="object_selector" class="form-select form-select-lg mb-3 animate__animated animate__pulse animate__infinite"></select>
+        <br>
+        <div id="object_info"></div>
+        <br>
+      </div> -->
+      <div class="col-lg-6 mb-3">
+        <label for="container_selector" class="form-label">Select Container:</label>
+        <select id="container_selector" name="container_selector" class="form-select form-select-lg mb-3 animate__animated animate__pulse animate__infinite"></select>
+        <br>
+        <div id="container_info"></div>
+      </div>
+      <br>
+    </div>
+    <button id="submitButton" class="btn btn-primary">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
+        <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+      </svg>
+
+    </button>
+    
+  </div>
+
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5 id="editItemNameLabel"></h5>
+                <form id="editForm">
+                    <div class="form-group">
+                        <label for="item_name">Item Name:</label>
+                        <input type="text" class="form-control" id="item_name" placeholder="Item Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input type="text" class="form-control" id="description" placeholder="Description">
+                    </div>
+                    <div class="form-group">
+                        <label for="item_type">Item Type:</label>
+                        <input type="text" class="form-control" id="item_type" placeholder="Item Type">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="updateItem()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="item-details.js"></script>
+</body>
+</html>
+
